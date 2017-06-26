@@ -1,0 +1,49 @@
+class HanoiTower(object):
+
+    def __init__(self, name):
+        self.disks = []
+        self.name = name
+
+    def solve(self, n, target1, target2):
+        if n == 0:
+            return
+        if n == 1:
+            target1.add(self.remove())
+            return
+        self.solve(n - 1, target2, target1)
+        target1.add(self.remove())
+        target2.solve(n - 1, target1, self)
+
+    def add(self, disk):
+        self.disks.append(disk)
+
+    def remove(self):
+        return self.disks.pop()
+
+    def fill(self, n):
+        self.disks = list([x + 1 for x in reversed(list(range(n)))]);
+
+    def show(self):
+        print(" Tower has ")
+        for x in self.disks:
+            print(x)
+
+
+Towers = []
+Towers.append(HanoiTower("T1"))
+Towers.append(HanoiTower("T2"))
+Towers.append(HanoiTower("T3"))
+Towers[0].fill(5)
+
+print("Starting state: ")
+for x in Towers:
+    x.show()
+
+print("Solving..")
+
+Towers[0].solve(5, Towers[1], Towers[2])
+
+print("Solved state.")
+
+for x in Towers:
+    x.show()
